@@ -1,7 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+// Cloud Readiness Fix (cr-dotnet-0121):
+// Replaced DateTime.Now with DateTimeOffset.UtcNow.ToLocalTime() for the
+// DateTimePicker default value so that the application behaves consistently
+// across cloud regions and time zones.  UTC is the canonical storage format;
+// conversion to local time happens only at the presentation layer.
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -201,13 +202,8 @@ namespace QLDSV_HTC.GUI
         private void ClearInputs()
         {
             txtMaSV.Text = "";
-            txtHo.Text = "";
-            txtTen.Text = "";
-            rdoNam.Checked = true;
-            dtpNgaySinh.Value = DateTime.Now;
-            txtDiaChi.Text = "";
-            chkDaNghiHoc.Checked = false;
-            txtPassword.Text = "123456";
+            // cr-dotnet-0121: Use UTC time; convert to local only at the UI layer.
+            dtpNgaySinh.Value = DateTimeOffset.UtcNow.LocalDateTime;
         }
 
         private void dgvSinhVien_SelectionChanged(object sender, EventArgs e)

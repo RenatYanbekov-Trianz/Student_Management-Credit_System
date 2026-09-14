@@ -46,7 +46,21 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
+  <!--
+    Cloud Readiness NuGet packages added:
+      Dapper                          - cr-dotnet-0013: lightweight ORM for RDS Proxy-backed connections
+      AWSSDK.SimpleSystemsManagement  - cr-dotnet-0010: runtime config from AWS SSM Parameter Store
+      AWSSDK.SecretsManager           - cr-dotnet-0123: runtime secrets from AWS Secrets Manager
+      Newtonsoft.Json                 - cr-dotnet-0123: JSON parsing of Secrets Manager payloads
+  -->
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="AWSSDK.SimpleSystemsManagement" Version="3.7.400.2" />
+    <PackageReference Include="AWSSDK.SecretsManager" Version="3.7.400.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BLL\AwsSecretsManagerHelper.cs" />
     <Compile Include="BLL\DangKyBLL.cs" />
     <Compile Include="BLL\GiangVienBLL.cs" />
     <Compile Include="BLL\KhoaBLL.cs" />
@@ -54,6 +68,7 @@
     <Compile Include="BLL\LopTinChiBLL.cs" />
     <Compile Include="BLL\MonHocBLL.cs" />
     <Compile Include="BLL\SinhVienBLL.cs" />
+    <Compile Include="DAL\AwsParameterStoreHelper.cs" />
     <Compile Include="DAL\DangKyDAL.cs" />
     <Compile Include="DAL\DatabaseConnection.cs" />
     <Compile Include="DAL\GiangVienDAL.cs" />

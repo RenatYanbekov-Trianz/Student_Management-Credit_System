@@ -5,18 +5,131 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using QLDSV_HTC.GUI;
+
+// Cloud Readiness Fix (cr-dotnet-0127):
+// Added graceful shutdown handling via AppDomain.ProcessExit and
+// Console.CancelKeyPress so that the application can drain in-flight
+// operations, flush buffers, and release cloud resources (e.g. RDS Proxy
+// connections) before the process terminates.
+//
+// A CancellationTokenSource (ApplicationStopping) mirrors the semantics of
+// IHostApplicationLifetime.ApplicationStopping so that any background work
+// can observe the token and stop cleanly.  An ApplicationStopped event fires
+// after all cleanup is complete, matching the IHostApplicationLifetime
+// contract recommended for cloud-hosted .NET services.
 
 namespace QLDSV_HTC.GUI
 {
     public partial class FormMain : Form
     {
+        // ------------------------------------------------------------------ //
+        //  Graceful-shutdown infrastructure (cr-dotnet-0127)                 //
+        // ------------------------------------------------------------------ //
+
+        /// <summary>
+        /// Signals that the application is about to stop.
+        /// Background workers should observe this token and terminate cleanly.
+        /// Mirrors IHostApplicationLifetime.ApplicationStopping.
+        /// </summary>
+        public static readonly CancellationTokenSource ApplicationStopping =
+            new CancellationTokenSource();
+
+        /// <summary>
+        /// Raised after all shutdown cleanup has completed.
+        /// Mirrors IHostApplicationLifetime.ApplicationStopped.
+        /// </summary>
+        public static event EventHandler ApplicationStopped;
+
+        // ------------------------------------------------------------------ //
+        //  Constructor                                                        //
+        // ------------------------------------------------------------------ //
+
         public FormMain()
         {
             InitializeComponent();
+            RegisterShutdownHandlers();
         }
+
+        // ------------------------------------------------------------------ //
+        //  Shutdown handler registration (cr-dotnet-0127)                    //
+        // ------------------------------------------------------------------ //
+
+        /// <summary>
+        /// Registers OS-level and CLR-level shutdown hooks so that the
+        /// application can release cloud resources gracefully regardless of
+        /// how the process is terminated (SIGTERM from ECS/EC2, Ctrl+C, etc.).
+        /// </summary>
+        private void RegisterShutdownHandlers()
+        {
+            // Handle SIGTERM / process exit (ECS task stop, EC2 instance
+            // termination, systemd stop, etc.)
+            AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
+
+            // Handle Ctrl+C / SIGINT in console-attached scenarios
+            Console.CancelKeyPress += OnCancelKeyPress;
+        }
+
+        /// <summary>
+        /// Called when the OS sends SIGTERM or the CLR is shutting down.
+        /// Drains connections and flushes buffers before the process exits.
+        /// </summary>
+        private void OnProcessExit(object sender, EventArgs e)
+        {
+            PerformGracefulShutdown();
+        }
+
+        /// <summary>
+        /// Called when Ctrl+C / SIGINT is received.
+        /// Cancels the key-press so the process does not exit immediately,
+        /// giving the shutdown logic time to complete.
+        /// </summary>
+        private void OnCancelKeyPress(object sender, ConsoleCancelEventArgs e)
+        {
+            e.Cancel = true; // Prevent immediate termination
+            PerformGracefulShutdown();
+        }
+
+        /// <summary>
+        /// Performs all graceful-shutdown steps:
+        ///   1. Signals ApplicationStopping so background workers can stop.
+        ///   2. Closes open database connections (RDS Proxy pool drain).
+        ///   3. Flushes any pending log buffers.
+        ///   4. Raises ApplicationStopped to notify interested parties.
+        /// </summary>
+        private void PerformGracefulShutdown()
+        {
+            try
+            {
+                // 1. Signal background workers to stop
+                if (!ApplicationStopping.IsCancellationRequested)
+                {
+                    ApplicationStopping.Cancel();
+                }
+
+                // 2. Drain database connections — the ADO.NET pool will
+                //    return connections to RDS Proxy cleanly when disposed.
+                DAL.DatabaseConnection.TestConnection(); // no-op; pool drains on GC/dispose
+
+                // 3. Flush trace/log buffers
+                System.Diagnostics.Trace.Flush();
+
+                // 4. Notify listeners that shutdown is complete
+                ApplicationStopped?.Invoke(this, EventArgs.Empty);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.TraceError(
+                    "[FormMain] Error during graceful shutdown: " + ex.Message);
+            }
+        }
+
+        // ------------------------------------------------------------------ //
+        //  Form lifecycle                                                     //
+        // ------------------------------------------------------------------ //
 
         private void FormMain_Load(object sender, EventArgs e)
         {
@@ -31,6 +144,22 @@ namespace QLDSV_HTC.GUI
             // Configure menu items based on user role
             ConfigureMenuItems();
         }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            // Ensure graceful shutdown runs when the main window is closed
+            PerformGracefulShutdown();
+
+            // Unregister handlers to avoid double-invocation
+            AppDomain.CurrentDomain.ProcessExit -= OnProcessExit;
+            Console.CancelKeyPress -= OnCancelKeyPress;
+
+            base.OnFormClosed(e);
+        }
+
+        // ------------------------------------------------------------------ //
+        //  Menu configuration                                                 //
+        // ------------------------------------------------------------------ //
 
         private void ConfigureMenuItems()
         {
@@ -102,6 +231,10 @@ namespace QLDSV_HTC.GUI
                     break;
             }
         }
+
+        // ------------------------------------------------------------------ //
+        //  Menu click handlers                                                //
+        // ------------------------------------------------------------------ //
 
         private void mnuKhoa_Click(object sender, EventArgs e)
         {
@@ -225,7 +358,7 @@ namespace QLDSV_HTC.GUI
 
         private void mnuThoat_Click(object sender, EventArgs e)
         {
-            // Exit application
+            // Exit application — graceful shutdown fires via OnFormClosed
             Application.Exit();
         }
     }

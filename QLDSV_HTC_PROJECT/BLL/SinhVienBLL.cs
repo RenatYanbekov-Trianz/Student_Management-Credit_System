@@ -4,10 +4,56 @@ using System.Data.SqlClient;
 using QLDSV_HTC.DAL;
 using QLDSV_HTC.DTO.Models;
 
+// Cloud Readiness Fix (cr-dotnet-0123):
+// The hardcoded default password "123456" on line 89 has been replaced with
+// a runtime lookup from AWS Secrets Manager.  The secret is stored under the
+// name "qldsv-htc/student-defaults" with a JSON key "DefaultPassword".
+// This ensures that sensitive credential values are never embedded in source
+// code or configuration files, support automatic rotation, and can be updated
+// without redeployment.
+
 namespace QLDSV_HTC.BLL
 {
     public class SinhVienBLL
     {
+        // ------------------------------------------------------------------ //
+        //  Secret name used to retrieve the default student password from     //
+        //  AWS Secrets Manager (cr-dotnet-0123).                              //
+        // ------------------------------------------------------------------ //
+        private const string DefaultPasswordSecretName = "qldsv-htc/student-defaults";
+        private const string DefaultPasswordSecretKey  = "DefaultPassword";
+
+        /// <summary>
+        /// Retrieves the default student password from AWS Secrets Manager.
+        /// Falls back to the environment variable QLDSV_HTC_DEFAULT_PASSWORD
+        /// when running outside AWS (e.g. local development).
+        /// </summary>
+        private static string GetDefaultPassword()
+        {
+            // 1. Environment variable — useful for local / CI environments
+            string envPassword = Environment.GetEnvironmentVariable("QLDSV_HTC_DEFAULT_PASSWORD");
+            if (!string.IsNullOrWhiteSpace(envPassword))
+            {
+                return envPassword;
+            }
+
+            // 2. AWS Secrets Manager — production path
+            try
+            {
+                return AwsSecretsManagerHelper.GetSecretValue(
+                    DefaultPasswordSecretName,
+                    DefaultPasswordSecretKey);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(
+                    "Default student password is not configured. " +
+                    "Set the environment variable QLDSV_HTC_DEFAULT_PASSWORD or " +
+                    $"store the value in AWS Secrets Manager at '{DefaultPasswordSecretName}' " +
+                    $"with key '{DefaultPasswordSecretKey}'.", ex);
+            }
+        }
+
         public static List<SinhVien> GetAllSinhVien()
         {
             try
@@ -83,10 +129,11 @@ namespace QLDSV_HTC.BLL
                     throw new Exception("MaLop does not exist");
                 }
                 
-                // Set default values if not provided
+                // Set default password from AWS Secrets Manager when not provided
+                // (cr-dotnet-0123: replaces hardcoded "123456")
                 if (string.IsNullOrEmpty(sinhVien.Password))
                 {
-                    sinhVien.Password = "123456";
+                    sinhVien.Password = GetDefaultPassword();
                 }
                 
                 return SinhVienDAL.InsertSinhVien(sinhVien);
