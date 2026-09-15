@@ -1,0 +1,77 @@
+# .dockerignore - Exclude unnecessary files from Docker build context
+# Prevents source code, PDB files, and temp artifacts from bloating the Windows container image
+
+# Source control
+.git
+.gitignore
+.gitattributes
+
+# Visual Studio artifacts
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build output directories
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Debug symbols (PDB files)
+*.pdb
+
+# Test projects
+*Tests/
+*Test/
+*.Tests.csproj
+*.Test.csproj
+
+# NuGet packages
+packages/
+*.nupkg
+*.snupkg
+.nuget/
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+~$*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE files
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Documentation
+docs/
+*.md
+*.txt
+LICENSE
+
+# CI/CD configuration
+.github/
+.gitlab-ci.yml
+azure-pipelines.yml
+Jenkinsfile
+
+# Scripts
+scripts/
+
+# Kubernetes manifests
+kubernetes/
+
+# Docker files themselves (avoid recursive inclusion)
+Dockerfile*
+.dockerignore
+
+# Launch settings
+**/launchSettings.json

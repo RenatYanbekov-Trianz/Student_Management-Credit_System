@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  qldsv-htc-project:
+    build:
+      context: .
+      dockerfile: QLDSV_HTC_PROJECT/Dockerfile
+    image: qldsv-htc-project:latest
+    container_name: qldsv-htc-project
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_CONNECTION_STRING=${DB_CONNECTION_STRING}
+      - HEALTH_CHECK_PORT=8080
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "powershell", "-Command",
+             "try { $r = Invoke-WebRequest -Uri http://localhost:8080/health -UseBasicParsing -TimeoutSec 5; if ($r.StatusCode -eq 200) { exit 0 } else { exit 1 } } catch { exit 1 }"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

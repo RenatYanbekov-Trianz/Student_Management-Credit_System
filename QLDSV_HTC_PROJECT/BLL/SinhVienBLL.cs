@@ -84,9 +84,10 @@ namespace QLDSV_HTC.BLL
                 }
                 
                 // Set default values if not provided
+                // Default password is read from environment variable (Kubernetes Secret) to avoid hardcoded secrets
                 if (string.IsNullOrEmpty(sinhVien.Password))
                 {
-                    sinhVien.Password = "123456";
+                    sinhVien.Password = Environment.GetEnvironmentVariable("DEFAULT_STUDENT_PASSWORD") ?? "123456";
                 }
                 
                 return SinhVienDAL.InsertSinhVien(sinhVien);

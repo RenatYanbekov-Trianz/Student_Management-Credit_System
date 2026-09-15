@@ -7,7 +7,11 @@ namespace QLDSV_HTC.DAL
 {
     public class DatabaseConnection
     {
-        private static string connectionString = ConfigurationManager.ConnectionStrings["QLDSV_HTCConnectionString"].ConnectionString;
+        // Connection string is read from environment variable DB_CONNECTION_STRING injected via Kubernetes Secret / AWS Secrets Manager (IRSA).
+        // This replaces the Web.config/App.config transform-based configuration to support container image promotion across environments.
+        private static string connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")
+            ?? ConfigurationManager.ConnectionStrings["QLDSV_HTCConnectionString"]?.ConnectionString
+            ?? string.Empty;
         private static SqlConnection connection;
 
         public static SqlConnection GetConnection()
