@@ -31,7 +31,7 @@ namespace QLDSV_HTC.BLL
             }
         }
 
-        public static GiangVien GetGiangVienByMaGV(string maGV)
+        public static GiangVien? GetGiangVienByMaGV(string maGV)
         {
             try
             {
@@ -69,14 +69,14 @@ namespace QLDSV_HTC.BLL
                 }
 
                 // Check if MaGV already exists
-                GiangVien existingGiangVien = GiangVienDAL.GetGiangVienByMaGV(giangVien.MaGV);
+                GiangVien? existingGiangVien = GiangVienDAL.GetGiangVienByMaGV(giangVien.MaGV);
                 if (existingGiangVien != null)
                 {
                     throw new Exception("MaGV already exists");
                 }
 
                 // Check if MaKhoa exists
-                Khoa khoa = KhoaDAL.GetKhoaByMaKhoa(giangVien.MaKhoa);
+                Khoa? khoa = KhoaDAL.GetKhoaByMaKhoa(giangVien.MaKhoa);
                 if (khoa == null)
                 {
                     throw new Exception("MaKhoa does not exist");
@@ -116,14 +116,14 @@ namespace QLDSV_HTC.BLL
                 }
 
                 // Check if MaGV exists
-                GiangVien existingGiangVien = GiangVienDAL.GetGiangVienByMaGV(giangVien.MaGV);
+                GiangVien? existingGiangVien = GiangVienDAL.GetGiangVienByMaGV(giangVien.MaGV);
                 if (existingGiangVien == null)
                 {
                     throw new Exception("MaGV does not exist");
                 }
 
                 // Check if MaKhoa exists
-                Khoa khoa = KhoaDAL.GetKhoaByMaKhoa(giangVien.MaKhoa);
+                Khoa? khoa = KhoaDAL.GetKhoaByMaKhoa(giangVien.MaKhoa);
                 if (khoa == null)
                 {
                     throw new Exception("MaKhoa does not exist");
@@ -142,7 +142,7 @@ namespace QLDSV_HTC.BLL
             try
             {
                 // Check if MaGV exists
-                GiangVien existingGiangVien = GiangVienDAL.GetGiangVienByMaGV(maGV);
+                GiangVien? existingGiangVien = GiangVienDAL.GetGiangVienByMaGV(maGV);
                 if (existingGiangVien == null)
                 {
                     throw new Exception("MaGV does not exist");

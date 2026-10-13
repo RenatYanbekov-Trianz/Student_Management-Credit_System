@@ -18,7 +18,7 @@ namespace QLDSV_HTC.BLL
                 throw new Exception("Error retrieving all LopTinChi: " + ex.Message);
             }
         }
-        
+
         public static List<LopTinChi> GetLopTinChisByMaKhoa(string maKhoa)
         {
             try
@@ -30,7 +30,7 @@ namespace QLDSV_HTC.BLL
                 throw new Exception("Error retrieving LopTinChi by MaKhoa: " + ex.Message);
             }
         }
-        
+
         public static List<LopTinChi> GetLopTinChisByNienKhoaAndHocKy(string nienKhoa, int hocKy)
         {
             try
@@ -42,8 +42,8 @@ namespace QLDSV_HTC.BLL
                 throw new Exception("Error retrieving LopTinChi by NienKhoa and HocKy: " + ex.Message);
             }
         }
-        
-        public static LopTinChi GetLopTinChiByMaLTC(int maLTC)
+
+        public static LopTinChi? GetLopTinChiByMaLTC(int maLTC)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace QLDSV_HTC.BLL
                 throw new Exception("Error retrieving LopTinChi by MaLTC: " + ex.Message);
             }
         }
-        
+
         public static int InsertLopTinChi(LopTinChi lopTinChi)
         {
             try
@@ -64,58 +64,58 @@ namespace QLDSV_HTC.BLL
                 {
                     throw new Exception("NienKhoa cannot be empty");
                 }
-                
+
                 if (lopTinChi.HocKy < 1 || lopTinChi.HocKy > 3)
                 {
                     throw new Exception("HocKy must be between 1 and 3");
                 }
-                
+
                 if (string.IsNullOrEmpty(lopTinChi.MaMH))
                 {
                     throw new Exception("MaMH cannot be empty");
                 }
-                
+
                 if (lopTinChi.Nhom < 1)
                 {
                     throw new Exception("Nhom must be greater than or equal to 1");
                 }
-                
+
                 if (string.IsNullOrEmpty(lopTinChi.MaGV))
                 {
                     throw new Exception("MaGV cannot be empty");
                 }
-                
+
                 if (string.IsNullOrEmpty(lopTinChi.MaKhoa))
                 {
                     throw new Exception("MaKhoa cannot be empty");
                 }
-                
+
                 if (lopTinChi.SoSVToiThieu <= 0)
                 {
                     throw new Exception("SoSVToiThieu must be greater than 0");
                 }
-                
+
                 // Check if MaMH exists
-                MonHoc monHoc = MonHocDAL.GetMonHocByMaMH(lopTinChi.MaMH);
+                MonHoc? monHoc = MonHocDAL.GetMonHocByMaMH(lopTinChi.MaMH);
                 if (monHoc == null)
                 {
                     throw new Exception("MaMH does not exist");
                 }
-                
+
                 // Check if MaGV exists
-                GiangVien giangVien = GiangVienDAL.GetGiangVienByMaGV(lopTinChi.MaGV);
+                GiangVien? giangVien = GiangVienDAL.GetGiangVienByMaGV(lopTinChi.MaGV);
                 if (giangVien == null)
                 {
                     throw new Exception("MaGV does not exist");
                 }
-                
+
                 // Check if MaKhoa exists
-                Khoa khoa = KhoaDAL.GetKhoaByMaKhoa(lopTinChi.MaKhoa);
+                Khoa? khoa = KhoaDAL.GetKhoaByMaKhoa(lopTinChi.MaKhoa);
                 if (khoa == null)
                 {
                     throw new Exception("MaKhoa does not exist");
                 }
-                
+
                 // Check if NienKhoa + HocKy + MaMH + Nhom already exists
                 foreach (LopTinChi ltc in LopTinChiDAL.GetAllLopTinChi())
                 {
@@ -127,7 +127,7 @@ namespace QLDSV_HTC.BLL
                         throw new Exception("NienKhoa + HocKy + MaMH + Nhom already exists");
                     }
                 }
-                
+
                 return LopTinChiDAL.InsertLopTinChi(lopTinChi);
             }
             catch (Exception ex)
@@ -135,7 +135,7 @@ namespace QLDSV_HTC.BLL
                 throw new Exception("Error inserting LopTinChi: " + ex.Message);
             }
         }
-        
+
         public static bool UpdateLopTinChi(LopTinChi lopTinChi)
         {
             try
@@ -145,65 +145,65 @@ namespace QLDSV_HTC.BLL
                 {
                     throw new Exception("NienKhoa cannot be empty");
                 }
-                
+
                 if (lopTinChi.HocKy < 1 || lopTinChi.HocKy > 3)
                 {
                     throw new Exception("HocKy must be between 1 and 3");
                 }
-                
+
                 if (string.IsNullOrEmpty(lopTinChi.MaMH))
                 {
                     throw new Exception("MaMH cannot be empty");
                 }
-                
+
                 if (lopTinChi.Nhom < 1)
                 {
                     throw new Exception("Nhom must be greater than or equal to 1");
                 }
-                
+
                 if (string.IsNullOrEmpty(lopTinChi.MaGV))
                 {
                     throw new Exception("MaGV cannot be empty");
                 }
-                
+
                 if (string.IsNullOrEmpty(lopTinChi.MaKhoa))
                 {
                     throw new Exception("MaKhoa cannot be empty");
                 }
-                
+
                 if (lopTinChi.SoSVToiThieu <= 0)
                 {
                     throw new Exception("SoSVToiThieu must be greater than 0");
                 }
-                
+
                 // Check if MaLTC exists
-                LopTinChi existingLopTinChi = LopTinChiDAL.GetLopTinChiByMaLTC(lopTinChi.MaLTC);
+                LopTinChi? existingLopTinChi = LopTinChiDAL.GetLopTinChiByMaLTC(lopTinChi.MaLTC);
                 if (existingLopTinChi == null)
                 {
                     throw new Exception("MaLTC does not exist");
                 }
-                
+
                 // Check if MaMH exists
-                MonHoc monHoc = MonHocDAL.GetMonHocByMaMH(lopTinChi.MaMH);
+                MonHoc? monHoc = MonHocDAL.GetMonHocByMaMH(lopTinChi.MaMH);
                 if (monHoc == null)
                 {
                     throw new Exception("MaMH does not exist");
                 }
-                
+
                 // Check if MaGV exists
-                GiangVien giangVien = GiangVienDAL.GetGiangVienByMaGV(lopTinChi.MaGV);
+                GiangVien? giangVien = GiangVienDAL.GetGiangVienByMaGV(lopTinChi.MaGV);
                 if (giangVien == null)
                 {
                     throw new Exception("MaGV does not exist");
                 }
-                
+
                 // Check if MaKhoa exists
-                Khoa khoa = KhoaDAL.GetKhoaByMaKhoa(lopTinChi.MaKhoa);
+                Khoa? khoa = KhoaDAL.GetKhoaByMaKhoa(lopTinChi.MaKhoa);
                 if (khoa == null)
                 {
                     throw new Exception("MaKhoa does not exist");
                 }
-                
+
                 // Check if NienKhoa + HocKy + MaMH + Nhom already exists (excluding this LopTinChi)
                 foreach (LopTinChi ltc in LopTinChiDAL.GetAllLopTinChi())
                 {
@@ -216,7 +216,7 @@ namespace QLDSV_HTC.BLL
                         throw new Exception("NienKhoa + HocKy + MaMH + Nhom already exists");
                     }
                 }
-                
+
                 return LopTinChiDAL.UpdateLopTinChi(lopTinChi);
             }
             catch (Exception ex)
@@ -224,25 +224,25 @@ namespace QLDSV_HTC.BLL
                 throw new Exception("Error updating LopTinChi: " + ex.Message);
             }
         }
-        
+
         public static bool DeleteLopTinChi(int maLTC)
         {
             try
             {
                 // Check if MaLTC exists
-                LopTinChi existingLopTinChi = LopTinChiDAL.GetLopTinChiByMaLTC(maLTC);
+                LopTinChi? existingLopTinChi = LopTinChiDAL.GetLopTinChiByMaLTC(maLTC);
                 if (existingLopTinChi == null)
                 {
                     throw new Exception("MaLTC does not exist");
                 }
-                
+
                 // Check if there are any DangKy associated with this LopTinChi
                 List<DangKy> dangKys = DangKyDAL.GetDangKysByMaLTC(maLTC);
                 if (dangKys.Count > 0)
                 {
                     throw new Exception("Cannot delete LopTinChi because there are DangKy associated with it");
                 }
-                
+
                 return LopTinChiDAL.DeleteLopTinChi(maLTC);
             }
             catch (Exception ex)
@@ -250,7 +250,7 @@ namespace QLDSV_HTC.BLL
                 throw new Exception("Error deleting LopTinChi: " + ex.Message);
             }
         }
-        
+
         public static int GetSoSVDangKy(int maLTC)
         {
             try

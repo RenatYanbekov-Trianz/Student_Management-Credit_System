@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using QLDSV_HTC.DTO.Models;
 
 namespace QLDSV_HTC.DAL
@@ -19,8 +19,8 @@ namespace QLDSV_HTC.DAL
             {
                 MonHoc monHoc = new MonHoc
                 {
-                    MaMH = row["MAMH"].ToString(),
-                    TenMH = row["TENMH"].ToString(),
+                    MaMH = row["MAMH"].ToString()!,
+                    TenMH = row["TENMH"].ToString()!,
                     SoTiet_LT = Convert.ToInt32(row["SOTIET_LT"]),
                     SoTiet_TH = Convert.ToInt32(row["SOTIET_TH"])
                 };
@@ -31,7 +31,7 @@ namespace QLDSV_HTC.DAL
             return monHocs;
         }
 
-        public static MonHoc GetMonHocByMaMH(string maMH)
+        public static MonHoc? GetMonHocByMaMH(string maMH)
         {
             string query = "SELECT * FROM Monhoc WHERE MAMH = @MaMH";
             SqlParameter[] parameters = new SqlParameter[]
@@ -47,8 +47,8 @@ namespace QLDSV_HTC.DAL
 
                 MonHoc monHoc = new MonHoc
                 {
-                    MaMH = row["MAMH"].ToString(),
-                    TenMH = row["TENMH"].ToString(),
+                    MaMH = row["MAMH"].ToString()!,
+                    TenMH = row["TENMH"].ToString()!,
                     SoTiet_LT = Convert.ToInt32(row["SOTIET_LT"]),
                     SoTiet_TH = Convert.ToInt32(row["SOTIET_TH"])
                 };

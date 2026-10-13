@@ -1,16 +1,14 @@
-using System;
-
 namespace QLDSV_HTC.DTO.Models
 {
     public class DangKy
     {
         public int MaLTC { get; set; }
-        public string MaSV { get; set; }
+        public string MaSV { get; set; } = string.Empty;
         public int Diem_CC { get; set; }
         public float Diem_GK { get; set; }
         public float Diem_CK { get; set; }
         public bool HuyDangKy { get; set; }
-        
+
         // Calculated property for final grade
         public float DiemHetMon
         {

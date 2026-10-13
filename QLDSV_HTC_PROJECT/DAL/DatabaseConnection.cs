@@ -1,73 +1,88 @@
 using System;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace QLDSV_HTC.DAL
 {
+    /// <summary>
+    /// Provides database connection and query execution utilities.
+    /// Updated for .NET 8 compatibility using Microsoft.Data.SqlClient.
+    /// </summary>
     public class DatabaseConnection
     {
-        private static string connectionString = ConfigurationManager.ConnectionStrings["QLDSV_HTCConnectionString"].ConnectionString;
-        private static SqlConnection connection;
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["QLDSV_HTCConnectionString"]?.ConnectionString
+            ?? throw new InvalidOperationException("Connection string 'QLDSV_HTCConnectionString' not found in configuration.");
 
+        /// <summary>
+        /// Creates and returns a new open SqlConnection.
+        /// Caller is responsible for disposing the connection.
+        /// </summary>
         public static SqlConnection GetConnection()
         {
-            if (connection == null)
-            {
-                connection = new SqlConnection(connectionString);
-            }
-
-            if (connection.State != ConnectionState.Open)
-            {
-                connection.Open();
-            }
-
+            SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
             return connection;
         }
 
-        public static void CloseConnection()
+        /// <summary>
+        /// Tests whether a database connection can be established.
+        /// </summary>
+        public static bool TestConnection()
         {
-            if (connection != null && connection.State == ConnectionState.Open)
+            try
             {
-                connection.Close();
+                using SqlConnection connection = new SqlConnection(connectionString);
+                connection.Open();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
-        public static DataTable ExecuteQuery(string query, SqlParameter[] parameters = null)
+        /// <summary>
+        /// Executes a SELECT query and returns the result as a DataTable.
+        /// </summary>
+        public static DataTable ExecuteQuery(string query, SqlParameter[]? parameters = null)
         {
             DataTable dataTable = new DataTable();
 
             try
             {
-                SqlCommand command = new SqlCommand(query, GetConnection());
+                using SqlConnection connection = new SqlConnection(connectionString);
+                connection.Open();
+                using SqlCommand command = new SqlCommand(query, connection);
 
                 if (parameters != null)
                 {
                     command.Parameters.AddRange(parameters);
                 }
 
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                using SqlDataAdapter adapter = new SqlDataAdapter(command);
                 adapter.Fill(dataTable);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error executing query: " + ex.Message);
-            }
-            finally
-            {
-                CloseConnection();
+                throw new Exception("Error executing query: " + ex.Message, ex);
             }
 
             return dataTable;
         }
 
-        public static int ExecuteNonQuery(string query, SqlParameter[] parameters = null)
+        /// <summary>
+        /// Executes an INSERT, UPDATE, or DELETE query and returns the number of rows affected.
+        /// </summary>
+        public static int ExecuteNonQuery(string query, SqlParameter[]? parameters = null)
         {
             int rowsAffected = 0;
 
             try
             {
-                SqlCommand command = new SqlCommand(query, GetConnection());
+                using SqlConnection connection = new SqlConnection(connectionString);
+                connection.Open();
+                using SqlCommand command = new SqlCommand(query, connection);
 
                 if (parameters != null)
                 {
@@ -78,23 +93,24 @@ namespace QLDSV_HTC.DAL
             }
             catch (Exception ex)
             {
-                throw new Exception("Error executing non-query: " + ex.Message);
-            }
-            finally
-            {
-                CloseConnection();
+                throw new Exception("Error executing non-query: " + ex.Message, ex);
             }
 
             return rowsAffected;
         }
 
-        public static object ExecuteScalar(string query, SqlParameter[] parameters = null)
+        /// <summary>
+        /// Executes a query and returns the first column of the first row.
+        /// </summary>
+        public static object? ExecuteScalar(string query, SqlParameter[]? parameters = null)
         {
-            object result = null;
+            object? result = null;
 
             try
             {
-                SqlCommand command = new SqlCommand(query, GetConnection());
+                using SqlConnection connection = new SqlConnection(connectionString);
+                connection.Open();
+                using SqlCommand command = new SqlCommand(query, connection);
 
                 if (parameters != null)
                 {
@@ -105,28 +121,17 @@ namespace QLDSV_HTC.DAL
             }
             catch (Exception ex)
             {
-                throw new Exception("Error executing scalar: " + ex.Message);
-            }
-            finally
-            {
-                CloseConnection();
+                throw new Exception("Error executing scalar: " + ex.Message, ex);
             }
 
             return result;
         }
 
-        public static bool TestConnection()
+        // Legacy compatibility methods - kept for backward compatibility
+        [Obsolete("Use the parameterless GetConnection() instead. Ensure you dispose the connection after use.")]
+        public static void CloseConnection()
         {
-            try
-            {
-                GetConnection();
-                CloseConnection();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            // No-op: connections are now managed per-operation with using statements
         }
     }
 }

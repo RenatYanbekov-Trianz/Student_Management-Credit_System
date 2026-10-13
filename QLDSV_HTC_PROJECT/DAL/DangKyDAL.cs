@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using QLDSV_HTC.DTO.Models;
 
 namespace QLDSV_HTC.DAL
@@ -20,7 +20,7 @@ namespace QLDSV_HTC.DAL
                 DangKy dangKy = new DangKy
                 {
                     MaLTC = Convert.ToInt32(row["MALTC"]),
-                    MaSV = row["MASV"].ToString(),
+                    MaSV = row["MASV"].ToString()!,
                     Diem_CC = row["DIEM_CC"] != DBNull.Value ? Convert.ToInt32(row["DIEM_CC"]) : 0,
                     Diem_GK = row["DIEM_GK"] != DBNull.Value ? Convert.ToSingle(row["DIEM_GK"]) : 0,
                     Diem_CK = row["DIEM_CK"] != DBNull.Value ? Convert.ToSingle(row["DIEM_CK"]) : 0,
@@ -49,7 +49,7 @@ namespace QLDSV_HTC.DAL
                 DangKy dangKy = new DangKy
                 {
                     MaLTC = Convert.ToInt32(row["MALTC"]),
-                    MaSV = row["MASV"].ToString(),
+                    MaSV = row["MASV"].ToString()!,
                     Diem_CC = row["DIEM_CC"] != DBNull.Value ? Convert.ToInt32(row["DIEM_CC"]) : 0,
                     Diem_GK = row["DIEM_GK"] != DBNull.Value ? Convert.ToSingle(row["DIEM_GK"]) : 0,
                     Diem_CK = row["DIEM_CK"] != DBNull.Value ? Convert.ToSingle(row["DIEM_CK"]) : 0,
@@ -78,7 +78,7 @@ namespace QLDSV_HTC.DAL
                 DangKy dangKy = new DangKy
                 {
                     MaLTC = Convert.ToInt32(row["MALTC"]),
-                    MaSV = row["MASV"].ToString(),
+                    MaSV = row["MASV"].ToString()!,
                     Diem_CC = row["DIEM_CC"] != DBNull.Value ? Convert.ToInt32(row["DIEM_CC"]) : 0,
                     Diem_GK = row["DIEM_GK"] != DBNull.Value ? Convert.ToSingle(row["DIEM_GK"]) : 0,
                     Diem_CK = row["DIEM_CK"] != DBNull.Value ? Convert.ToSingle(row["DIEM_CK"]) : 0,
@@ -91,7 +91,7 @@ namespace QLDSV_HTC.DAL
             return dangKys;
         }
 
-        public static DangKy GetDangKyByMaLTCAndMaSV(int maLTC, string maSV)
+        public static DangKy? GetDangKyByMaLTCAndMaSV(int maLTC, string maSV)
         {
             string query = "SELECT * FROM Dangky WHERE MALTC = @MaLTC AND MASV = @MaSV";
             SqlParameter[] parameters = new SqlParameter[]
@@ -109,7 +109,7 @@ namespace QLDSV_HTC.DAL
                 DangKy dangKy = new DangKy
                 {
                     MaLTC = Convert.ToInt32(row["MALTC"]),
-                    MaSV = row["MASV"].ToString(),
+                    MaSV = row["MASV"].ToString()!,
                     Diem_CC = row["DIEM_CC"] != DBNull.Value ? Convert.ToInt32(row["DIEM_CC"]) : 0,
                     Diem_GK = row["DIEM_GK"] != DBNull.Value ? Convert.ToSingle(row["DIEM_GK"]) : 0,
                     Diem_CK = row["DIEM_CK"] != DBNull.Value ? Convert.ToSingle(row["DIEM_CK"]) : 0,

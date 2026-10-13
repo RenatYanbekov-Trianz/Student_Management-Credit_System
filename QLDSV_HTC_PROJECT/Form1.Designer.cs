@@ -1,4 +1,4 @@
-﻿namespace QLDSV_HTC_PROJECT
+namespace QLDSV_HTC
 {
     partial class Form1
     {
@@ -37,4 +37,3 @@
         #endregion
     }
 }
-

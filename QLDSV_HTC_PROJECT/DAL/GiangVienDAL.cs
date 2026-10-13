@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using QLDSV_HTC.DTO.Models;
 
 namespace QLDSV_HTC.DAL
@@ -19,14 +19,14 @@ namespace QLDSV_HTC.DAL
             {
                 GiangVien giangVien = new GiangVien
                 {
-                    MaGV = row["MAGV"].ToString(),
-                    Ho = row["HO"].ToString(),
-                    Ten = row["TEN"].ToString(),
-                    HocVi = row["HOCVI"].ToString(),
-                    HocHam = row["HOCHAM"].ToString(),
-                    ChuyenMon = row["CHUYENMON"].ToString(),
-                    MaKhoa = row["MAKHOA"].ToString(),
-                    Password = row["PASSWORD"].ToString()
+                    MaGV = row["MAGV"].ToString()!,
+                    Ho = row["HO"].ToString()!,
+                    Ten = row["TEN"].ToString()!,
+                    HocVi = row["HOCVI"].ToString()!,
+                    HocHam = row["HOCHAM"].ToString()!,
+                    ChuyenMon = row["CHUYENMON"].ToString()!,
+                    MaKhoa = row["MAKHOA"].ToString()!,
+                    Password = row["PASSWORD"].ToString()!
                 };
 
                 giangViens.Add(giangVien);
@@ -50,14 +50,14 @@ namespace QLDSV_HTC.DAL
             {
                 GiangVien giangVien = new GiangVien
                 {
-                    MaGV = row["MAGV"].ToString(),
-                    Ho = row["HO"].ToString(),
-                    Ten = row["TEN"].ToString(),
-                    HocVi = row["HOCVI"].ToString(),
-                    HocHam = row["HOCHAM"].ToString(),
-                    ChuyenMon = row["CHUYENMON"].ToString(),
-                    MaKhoa = row["MAKHOA"].ToString(),
-                    Password = row["PASSWORD"].ToString()
+                    MaGV = row["MAGV"].ToString()!,
+                    Ho = row["HO"].ToString()!,
+                    Ten = row["TEN"].ToString()!,
+                    HocVi = row["HOCVI"].ToString()!,
+                    HocHam = row["HOCHAM"].ToString()!,
+                    ChuyenMon = row["CHUYENMON"].ToString()!,
+                    MaKhoa = row["MAKHOA"].ToString()!,
+                    Password = row["PASSWORD"].ToString()!
                 };
 
                 giangViens.Add(giangVien);
@@ -66,7 +66,7 @@ namespace QLDSV_HTC.DAL
             return giangViens;
         }
 
-        public static GiangVien GetGiangVienByMaGV(string maGV)
+        public static GiangVien? GetGiangVienByMaGV(string maGV)
         {
             string query = "SELECT * FROM Giangvien WHERE MAGV = @MaGV";
             SqlParameter[] parameters = new SqlParameter[]
@@ -82,14 +82,14 @@ namespace QLDSV_HTC.DAL
 
                 GiangVien giangVien = new GiangVien
                 {
-                    MaGV = row["MAGV"].ToString(),
-                    Ho = row["HO"].ToString(),
-                    Ten = row["TEN"].ToString(),
-                    HocVi = row["HOCVI"].ToString(),
-                    HocHam = row["HOCHAM"].ToString(),
-                    ChuyenMon = row["CHUYENMON"].ToString(),
-                    MaKhoa = row["MAKHOA"].ToString(),
-                    Password = row["PASSWORD"].ToString()
+                    MaGV = row["MAGV"].ToString()!,
+                    Ho = row["HO"].ToString()!,
+                    Ten = row["TEN"].ToString()!,
+                    HocVi = row["HOCVI"].ToString()!,
+                    HocHam = row["HOCHAM"].ToString()!,
+                    ChuyenMon = row["CHUYENMON"].ToString()!,
+                    MaKhoa = row["MAKHOA"].ToString()!,
+                    Password = row["PASSWORD"].ToString()!
                 };
 
                 return giangVien;

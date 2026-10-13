@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using QLDSV_HTC.DTO.Models;
 
 namespace QLDSV_HTC.DAL
@@ -19,15 +19,15 @@ namespace QLDSV_HTC.DAL
             {
                 SinhVien sinhVien = new SinhVien
                 {
-                    MaSV = row["MASV"].ToString(),
-                    Ho = row["HO"].ToString(),
-                    Ten = row["TEN"].ToString(),
-                    MaLop = row["MALOP"].ToString(),
+                    MaSV = row["MASV"].ToString()!,
+                    Ho = row["HO"].ToString()!,
+                    Ten = row["TEN"].ToString()!,
+                    MaLop = row["MALOP"].ToString()!,
                     Phai = Convert.ToBoolean(row["PHAI"]),
                     NgaySinh = Convert.ToDateTime(row["NGAYSINH"]),
-                    DiaChi = row["DIACHI"].ToString(),
+                    DiaChi = row["DIACHI"].ToString()!,
                     DaNghiHoc = Convert.ToBoolean(row["DANGHIHOC"]),
-                    Password = row["PASSWORD"].ToString()
+                    Password = row["PASSWORD"].ToString()!
                 };
 
                 sinhViens.Add(sinhVien);
@@ -51,15 +51,15 @@ namespace QLDSV_HTC.DAL
             {
                 SinhVien sinhVien = new SinhVien
                 {
-                    MaSV = row["MASV"].ToString(),
-                    Ho = row["HO"].ToString(),
-                    Ten = row["TEN"].ToString(),
-                    MaLop = row["MALOP"].ToString(),
+                    MaSV = row["MASV"].ToString()!,
+                    Ho = row["HO"].ToString()!,
+                    Ten = row["TEN"].ToString()!,
+                    MaLop = row["MALOP"].ToString()!,
                     Phai = Convert.ToBoolean(row["PHAI"]),
                     NgaySinh = Convert.ToDateTime(row["NGAYSINH"]),
-                    DiaChi = row["DIACHI"].ToString(),
+                    DiaChi = row["DIACHI"].ToString()!,
                     DaNghiHoc = Convert.ToBoolean(row["DANGHIHOC"]),
-                    Password = row["PASSWORD"].ToString()
+                    Password = row["PASSWORD"].ToString()!
                 };
 
                 sinhViens.Add(sinhVien);
@@ -68,7 +68,7 @@ namespace QLDSV_HTC.DAL
             return sinhViens;
         }
 
-        public static SinhVien GetSinhVienByMaSV(string maSV)
+        public static SinhVien? GetSinhVienByMaSV(string maSV)
         {
             string query = "SELECT * FROM Sinhvien WHERE MASV = @MaSV";
             SqlParameter[] parameters = new SqlParameter[]
@@ -84,15 +84,15 @@ namespace QLDSV_HTC.DAL
 
                 SinhVien sinhVien = new SinhVien
                 {
-                    MaSV = row["MASV"].ToString(),
-                    Ho = row["HO"].ToString(),
-                    Ten = row["TEN"].ToString(),
-                    MaLop = row["MALOP"].ToString(),
+                    MaSV = row["MASV"].ToString()!,
+                    Ho = row["HO"].ToString()!,
+                    Ten = row["TEN"].ToString()!,
+                    MaLop = row["MALOP"].ToString()!,
                     Phai = Convert.ToBoolean(row["PHAI"]),
                     NgaySinh = Convert.ToDateTime(row["NGAYSINH"]),
-                    DiaChi = row["DIACHI"].ToString(),
+                    DiaChi = row["DIACHI"].ToString()!,
                     DaNghiHoc = Convert.ToBoolean(row["DANGHIHOC"]),
-                    Password = row["PASSWORD"].ToString()
+                    Password = row["PASSWORD"].ToString()!
                 };
 
                 return sinhVien;
