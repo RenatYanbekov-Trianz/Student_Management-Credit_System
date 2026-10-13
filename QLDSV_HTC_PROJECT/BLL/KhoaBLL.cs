@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using QLDSV_HTC.DAL;
 using QLDSV_HTC.DTO.Models;
 
@@ -20,7 +20,7 @@ namespace QLDSV_HTC.BLL
             }
         }
         
-        public static Khoa GetKhoaByMaKhoa(string maKhoa)
+        public static Khoa? GetKhoaByMaKhoa(string maKhoa)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace QLDSV_HTC.BLL
                 }
                 
                 // Check if MaKhoa already exists
-                Khoa existingKhoa = KhoaDAL.GetKhoaByMaKhoa(khoa.MaKhoa);
+                Khoa? existingKhoa = KhoaDAL.GetKhoaByMaKhoa(khoa.MaKhoa);
                 if (existingKhoa != null)
                 {
                     throw new Exception("MaKhoa already exists");
@@ -87,7 +87,7 @@ namespace QLDSV_HTC.BLL
                 }
                 
                 // Check if MaKhoa exists
-                Khoa existingKhoa = KhoaDAL.GetKhoaByMaKhoa(khoa.MaKhoa);
+                Khoa? existingKhoa = KhoaDAL.GetKhoaByMaKhoa(khoa.MaKhoa);
                 if (existingKhoa == null)
                 {
                     throw new Exception("MaKhoa does not exist");
@@ -115,7 +115,7 @@ namespace QLDSV_HTC.BLL
             try
             {
                 // Check if MaKhoa exists
-                Khoa existingKhoa = KhoaDAL.GetKhoaByMaKhoa(maKhoa);
+                Khoa? existingKhoa = KhoaDAL.GetKhoaByMaKhoa(maKhoa);
                 if (existingKhoa == null)
                 {
                     throw new Exception("MaKhoa does not exist");

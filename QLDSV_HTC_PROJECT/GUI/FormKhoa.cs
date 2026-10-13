@@ -14,7 +14,7 @@ namespace QLDSV_HTC.GUI
 {
     public partial class FormKhoa : Form
     {
-        private List<Khoa> khoas;
+        private List<Khoa> khoas = new List<Khoa>();
         private bool isAdding = false;
         private bool isEditing = false;
 

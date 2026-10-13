@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using QLDSV_HTC.DAL;
 using QLDSV_HTC.DTO.Models;
 
@@ -32,7 +31,7 @@ namespace QLDSV_HTC.BLL
             }
         }
         
-        public static SinhVien GetSinhVienByMaSV(string maSV)
+        public static SinhVien? GetSinhVienByMaSV(string maSV)
         {
             try
             {
@@ -70,14 +69,14 @@ namespace QLDSV_HTC.BLL
                 }
                 
                 // Check if MaSV already exists
-                SinhVien existingSinhVien = SinhVienDAL.GetSinhVienByMaSV(sinhVien.MaSV);
+                SinhVien? existingSinhVien = SinhVienDAL.GetSinhVienByMaSV(sinhVien.MaSV);
                 if (existingSinhVien != null)
                 {
                     throw new Exception("MaSV already exists");
                 }
                 
                 // Check if MaLop exists
-                Lop lop = LopDAL.GetLopByMaLop(sinhVien.MaLop);
+                Lop? lop = LopDAL.GetLopByMaLop(sinhVien.MaLop);
                 if (lop == null)
                 {
                     throw new Exception("MaLop does not exist");
@@ -123,14 +122,14 @@ namespace QLDSV_HTC.BLL
                 }
                 
                 // Check if MaSV exists
-                SinhVien existingSinhVien = SinhVienDAL.GetSinhVienByMaSV(sinhVien.MaSV);
+                SinhVien? existingSinhVien = SinhVienDAL.GetSinhVienByMaSV(sinhVien.MaSV);
                 if (existingSinhVien == null)
                 {
                     throw new Exception("MaSV does not exist");
                 }
                 
                 // Check if MaLop exists
-                Lop lop = LopDAL.GetLopByMaLop(sinhVien.MaLop);
+                Lop? lop = LopDAL.GetLopByMaLop(sinhVien.MaLop);
                 if (lop == null)
                 {
                     throw new Exception("MaLop does not exist");
@@ -149,7 +148,7 @@ namespace QLDSV_HTC.BLL
             try
             {
                 // Check if MaSV exists
-                SinhVien existingSinhVien = SinhVienDAL.GetSinhVienByMaSV(maSV);
+                SinhVien? existingSinhVien = SinhVienDAL.GetSinhVienByMaSV(maSV);
                 if (existingSinhVien == null)
                 {
                     throw new Exception("MaSV does not exist");

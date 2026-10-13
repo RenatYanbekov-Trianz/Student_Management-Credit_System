@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using QLDSV_HTC.DTO.Models;
 
 namespace QLDSV_HTC.DAL
@@ -20,12 +20,12 @@ namespace QLDSV_HTC.DAL
                 LopTinChi lopTinChi = new LopTinChi
                 {
                     MaLTC = Convert.ToInt32(row["MALTC"]),
-                    NienKhoa = row["NIENKHOA"].ToString(),
+                    NienKhoa = row["NIENKHOA"].ToString()!,
                     HocKy = Convert.ToInt32(row["HOCKY"]),
-                    MaMH = row["MAMH"].ToString(),
+                    MaMH = row["MAMH"].ToString()!,
                     Nhom = Convert.ToInt32(row["NHOM"]),
-                    MaGV = row["MAGV"].ToString(),
-                    MaKhoa = row["MAKHOA"].ToString(),
+                    MaGV = row["MAGV"].ToString()!,
+                    MaKhoa = row["MAKHOA"].ToString()!,
                     SoSVToiThieu = Convert.ToInt16(row["SOSVTOITHIEU"]),
                     HuyLop = Convert.ToBoolean(row["HUYLOP"])
                 };
@@ -52,12 +52,12 @@ namespace QLDSV_HTC.DAL
                 LopTinChi lopTinChi = new LopTinChi
                 {
                     MaLTC = Convert.ToInt32(row["MALTC"]),
-                    NienKhoa = row["NIENKHOA"].ToString(),
+                    NienKhoa = row["NIENKHOA"].ToString()!,
                     HocKy = Convert.ToInt32(row["HOCKY"]),
-                    MaMH = row["MAMH"].ToString(),
+                    MaMH = row["MAMH"].ToString()!,
                     Nhom = Convert.ToInt32(row["NHOM"]),
-                    MaGV = row["MAGV"].ToString(),
-                    MaKhoa = row["MAKHOA"].ToString(),
+                    MaGV = row["MAGV"].ToString()!,
+                    MaKhoa = row["MAKHOA"].ToString()!,
                     SoSVToiThieu = Convert.ToInt16(row["SOSVTOITHIEU"]),
                     HuyLop = Convert.ToBoolean(row["HUYLOP"])
                 };
@@ -85,12 +85,12 @@ namespace QLDSV_HTC.DAL
                 LopTinChi lopTinChi = new LopTinChi
                 {
                     MaLTC = Convert.ToInt32(row["MALTC"]),
-                    NienKhoa = row["NIENKHOA"].ToString(),
+                    NienKhoa = row["NIENKHOA"].ToString()!,
                     HocKy = Convert.ToInt32(row["HOCKY"]),
-                    MaMH = row["MAMH"].ToString(),
+                    MaMH = row["MAMH"].ToString()!,
                     Nhom = Convert.ToInt32(row["NHOM"]),
-                    MaGV = row["MAGV"].ToString(),
-                    MaKhoa = row["MAKHOA"].ToString(),
+                    MaGV = row["MAGV"].ToString()!,
+                    MaKhoa = row["MAKHOA"].ToString()!,
                     SoSVToiThieu = Convert.ToInt16(row["SOSVTOITHIEU"]),
                     HuyLop = Convert.ToBoolean(row["HUYLOP"])
                 };
@@ -101,7 +101,7 @@ namespace QLDSV_HTC.DAL
             return lopTinChis;
         }
 
-        public static LopTinChi GetLopTinChiByMaLTC(int maLTC)
+        public static LopTinChi? GetLopTinChiByMaLTC(int maLTC)
         {
             string query = "SELECT * FROM Loptinchi WHERE MALTC = @MaLTC";
             SqlParameter[] parameters = new SqlParameter[]
@@ -118,12 +118,12 @@ namespace QLDSV_HTC.DAL
                 LopTinChi lopTinChi = new LopTinChi
                 {
                     MaLTC = Convert.ToInt32(row["MALTC"]),
-                    NienKhoa = row["NIENKHOA"].ToString(),
+                    NienKhoa = row["NIENKHOA"].ToString()!,
                     HocKy = Convert.ToInt32(row["HOCKY"]),
-                    MaMH = row["MAMH"].ToString(),
+                    MaMH = row["MAMH"].ToString()!,
                     Nhom = Convert.ToInt32(row["NHOM"]),
-                    MaGV = row["MAGV"].ToString(),
-                    MaKhoa = row["MAKHOA"].ToString(),
+                    MaGV = row["MAGV"].ToString()!,
+                    MaKhoa = row["MAKHOA"].ToString()!,
                     SoSVToiThieu = Convert.ToInt16(row["SOSVTOITHIEU"]),
                     HuyLop = Convert.ToBoolean(row["HUYLOP"])
                 };
@@ -151,7 +151,7 @@ namespace QLDSV_HTC.DAL
                 new SqlParameter("@HuyLop", lopTinChi.HuyLop)
             };
 
-            object result = DatabaseConnection.ExecuteScalar(query, parameters);
+            object? result = DatabaseConnection.ExecuteScalar(query, parameters);
 
             return Convert.ToInt32(result);
         }
@@ -200,7 +200,7 @@ namespace QLDSV_HTC.DAL
                 new SqlParameter("@MaLTC", maLTC)
             };
 
-            object result = DatabaseConnection.ExecuteScalar(query, parameters);
+            object? result = DatabaseConnection.ExecuteScalar(query, parameters);
 
             return Convert.ToInt32(result);
         }

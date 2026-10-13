@@ -43,7 +43,7 @@ namespace QLDSV_HTC.BLL
             }
         }
         
-        public static DangKy GetDangKyByMaLTCAndMaSV(int maLTC, string maSV)
+        public static DangKy? GetDangKyByMaLTCAndMaSV(int maLTC, string maSV)
         {
             try
             {
@@ -86,14 +86,14 @@ namespace QLDSV_HTC.BLL
                 }
                 
                 // Check if MaLTC exists
-                LopTinChi lopTinChi = LopTinChiDAL.GetLopTinChiByMaLTC(dangKy.MaLTC);
+                LopTinChi? lopTinChi = LopTinChiDAL.GetLopTinChiByMaLTC(dangKy.MaLTC);
                 if (lopTinChi == null)
                 {
                     throw new Exception("MaLTC does not exist");
                 }
                 
                 // Check if MaSV exists
-                SinhVien sinhVien = SinhVienDAL.GetSinhVienByMaSV(dangKy.MaSV);
+                SinhVien? sinhVien = SinhVienDAL.GetSinhVienByMaSV(dangKy.MaSV);
                 if (sinhVien == null)
                 {
                     throw new Exception("MaSV does not exist");
@@ -112,7 +112,7 @@ namespace QLDSV_HTC.BLL
                 }
                 
                 // Check if MaLTC + MaSV already exists
-                DangKy existingDangKy = DangKyDAL.GetDangKyByMaLTCAndMaSV(dangKy.MaLTC, dangKy.MaSV);
+                DangKy? existingDangKy = DangKyDAL.GetDangKyByMaLTCAndMaSV(dangKy.MaLTC, dangKy.MaSV);
                 if (existingDangKy != null)
                 {
                     throw new Exception("MaLTC + MaSV already exists");
@@ -157,7 +157,7 @@ namespace QLDSV_HTC.BLL
                 }
                 
                 // Check if MaLTC + MaSV exists
-                DangKy existingDangKy = DangKyDAL.GetDangKyByMaLTCAndMaSV(dangKy.MaLTC, dangKy.MaSV);
+                DangKy? existingDangKy = DangKyDAL.GetDangKyByMaLTCAndMaSV(dangKy.MaLTC, dangKy.MaSV);
                 if (existingDangKy == null)
                 {
                     throw new Exception("MaLTC + MaSV does not exist");
@@ -176,7 +176,7 @@ namespace QLDSV_HTC.BLL
             try
             {
                 // Check if MaLTC + MaSV exists
-                DangKy existingDangKy = DangKyDAL.GetDangKyByMaLTCAndMaSV(maLTC, maSV);
+                DangKy? existingDangKy = DangKyDAL.GetDangKyByMaLTCAndMaSV(maLTC, maSV);
                 if (existingDangKy == null)
                 {
                     throw new Exception("MaLTC + MaSV does not exist");
@@ -221,7 +221,7 @@ namespace QLDSV_HTC.BLL
                 }
                 
                 // Check if MaLTC + MaSV exists
-                DangKy existingDangKy = DangKyDAL.GetDangKyByMaLTCAndMaSV(maLTC, maSV);
+                DangKy? existingDangKy = DangKyDAL.GetDangKyByMaLTCAndMaSV(maLTC, maSV);
                 if (existingDangKy == null)
                 {
                     throw new Exception("MaLTC + MaSV does not exist");

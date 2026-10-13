@@ -14,8 +14,8 @@ namespace QLDSV_HTC.GUI
 {
     public partial class FormLop : Form
     {
-        private List<Lop> lops;
-        private List<Khoa> khoas;
+        private List<Lop> lops = new List<Lop>();
+        private List<Khoa> khoas = new List<Khoa>();
         private bool isAdding = false;
         private bool isEditing = false;
 

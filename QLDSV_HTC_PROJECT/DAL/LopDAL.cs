@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using QLDSV_HTC.DTO.Models;
 
 namespace QLDSV_HTC.DAL
@@ -19,10 +19,10 @@ namespace QLDSV_HTC.DAL
             {
                 Lop lop = new Lop
                 {
-                    MaLop = row["MALOP"].ToString(),
-                    TenLop = row["TENLOP"].ToString(),
-                    KhoaHoc = row["KHOAHOC"].ToString(),
-                    MaKhoa = row["MAKHOA"].ToString()
+                    MaLop = row["MALOP"].ToString()!,
+                    TenLop = row["TENLOP"].ToString()!,
+                    KhoaHoc = row["KHOAHOC"].ToString()!,
+                    MaKhoa = row["MAKHOA"].ToString()!
                 };
                 
                 lops.Add(lop);
@@ -46,10 +46,10 @@ namespace QLDSV_HTC.DAL
             {
                 Lop lop = new Lop
                 {
-                    MaLop = row["MALOP"].ToString(),
-                    TenLop = row["TENLOP"].ToString(),
-                    KhoaHoc = row["KHOAHOC"].ToString(),
-                    MaKhoa = row["MAKHOA"].ToString()
+                    MaLop = row["MALOP"].ToString()!,
+                    TenLop = row["TENLOP"].ToString()!,
+                    KhoaHoc = row["KHOAHOC"].ToString()!,
+                    MaKhoa = row["MAKHOA"].ToString()!
                 };
                 
                 lops.Add(lop);
@@ -58,7 +58,7 @@ namespace QLDSV_HTC.DAL
             return lops;
         }
         
-        public static Lop GetLopByMaLop(string maLop)
+        public static Lop? GetLopByMaLop(string maLop)
         {
             string query = "SELECT * FROM Lop WHERE MALOP = @MaLop";
             SqlParameter[] parameters = new SqlParameter[]
@@ -74,10 +74,10 @@ namespace QLDSV_HTC.DAL
                 
                 Lop lop = new Lop
                 {
-                    MaLop = row["MALOP"].ToString(),
-                    TenLop = row["TENLOP"].ToString(),
-                    KhoaHoc = row["KHOAHOC"].ToString(),
-                    MaKhoa = row["MAKHOA"].ToString()
+                    MaLop = row["MALOP"].ToString()!,
+                    TenLop = row["TENLOP"].ToString()!,
+                    KhoaHoc = row["KHOAHOC"].ToString()!,
+                    MaKhoa = row["MAKHOA"].ToString()!
                 };
                 
                 return lop;

@@ -1,14 +1,14 @@
 using System;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace QLDSV_HTC.DAL
 {
     public class DatabaseConnection
     {
         private static string connectionString = ConfigurationManager.ConnectionStrings["QLDSV_HTCConnectionString"].ConnectionString;
-        private static SqlConnection connection;
+        private static SqlConnection? connection;
 
         public static SqlConnection GetConnection()
         {
@@ -33,7 +33,7 @@ namespace QLDSV_HTC.DAL
             }
         }
 
-        public static DataTable ExecuteQuery(string query, SqlParameter[] parameters = null)
+        public static DataTable ExecuteQuery(string query, SqlParameter[]? parameters = null)
         {
             DataTable dataTable = new DataTable();
 
@@ -61,7 +61,7 @@ namespace QLDSV_HTC.DAL
             return dataTable;
         }
 
-        public static int ExecuteNonQuery(string query, SqlParameter[] parameters = null)
+        public static int ExecuteNonQuery(string query, SqlParameter[]? parameters = null)
         {
             int rowsAffected = 0;
 
@@ -88,9 +88,9 @@ namespace QLDSV_HTC.DAL
             return rowsAffected;
         }
 
-        public static object ExecuteScalar(string query, SqlParameter[] parameters = null)
+        public static object? ExecuteScalar(string query, SqlParameter[]? parameters = null)
         {
-            object result = null;
+            object? result = null;
 
             try
             {

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using QLDSV_HTC.DAL;
 using QLDSV_HTC.DTO.Models;
 
@@ -32,7 +32,7 @@ namespace QLDSV_HTC.BLL
             }
         }
         
-        public static Lop GetLopByMaLop(string maLop)
+        public static Lop? GetLopByMaLop(string maLop)
         {
             try
             {
@@ -70,14 +70,14 @@ namespace QLDSV_HTC.BLL
                 }
                 
                 // Check if MaLop already exists
-                Lop existingLop = LopDAL.GetLopByMaLop(lop.MaLop);
+                Lop? existingLop = LopDAL.GetLopByMaLop(lop.MaLop);
                 if (existingLop != null)
                 {
                     throw new Exception("MaLop already exists");
                 }
                 
                 // Check if MaKhoa exists
-                Khoa khoa = KhoaDAL.GetKhoaByMaKhoa(lop.MaKhoa);
+                Khoa? khoa = KhoaDAL.GetKhoaByMaKhoa(lop.MaKhoa);
                 if (khoa == null)
                 {
                     throw new Exception("MaKhoa does not exist");
@@ -126,14 +126,14 @@ namespace QLDSV_HTC.BLL
                 }
                 
                 // Check if MaLop exists
-                Lop existingLop = LopDAL.GetLopByMaLop(lop.MaLop);
+                Lop? existingLop = LopDAL.GetLopByMaLop(lop.MaLop);
                 if (existingLop == null)
                 {
                     throw new Exception("MaLop does not exist");
                 }
                 
                 // Check if MaKhoa exists
-                Khoa khoa = KhoaDAL.GetKhoaByMaKhoa(lop.MaKhoa);
+                Khoa? khoa = KhoaDAL.GetKhoaByMaKhoa(lop.MaKhoa);
                 if (khoa == null)
                 {
                     throw new Exception("MaKhoa does not exist");
@@ -161,7 +161,7 @@ namespace QLDSV_HTC.BLL
             try
             {
                 // Check if MaLop exists
-                Lop existingLop = LopDAL.GetLopByMaLop(maLop);
+                Lop? existingLop = LopDAL.GetLopByMaLop(maLop);
                 if (existingLop == null)
                 {
                     throw new Exception("MaLop does not exist");

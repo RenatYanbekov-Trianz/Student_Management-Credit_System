@@ -14,10 +14,10 @@ namespace QLDSV_HTC.GUI
 {
     public partial class FormLopTinChi : Form
     {
-        private List<Khoa> khoas;
-        private List<MonHoc> monHocs;
-        private List<GiangVien> giangViens;
-        private List<LopTinChi> lopTinChis;
+        private List<Khoa> khoas = new List<Khoa>();
+        private List<MonHoc> monHocs = new List<MonHoc>();
+        private List<GiangVien> giangViens = new List<GiangVien>();
+        private List<LopTinChi> lopTinChis = new List<LopTinChi>();
         private bool isAdding = false;
         private bool isEditing = false;
 

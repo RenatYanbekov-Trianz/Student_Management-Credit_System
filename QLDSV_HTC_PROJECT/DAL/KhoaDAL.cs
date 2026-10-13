@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using QLDSV_HTC.DTO.Models;
 
 namespace QLDSV_HTC.DAL
@@ -19,8 +19,8 @@ namespace QLDSV_HTC.DAL
             {
                 Khoa khoa = new Khoa
                 {
-                    MaKhoa = row["MAKHOA"].ToString(),
-                    TenKhoa = row["TENKHOA"].ToString()
+                    MaKhoa = row["MAKHOA"].ToString()!,
+                    TenKhoa = row["TENKHOA"].ToString()!
                 };
                 
                 khoas.Add(khoa);
@@ -29,7 +29,7 @@ namespace QLDSV_HTC.DAL
             return khoas;
         }
         
-        public static Khoa GetKhoaByMaKhoa(string maKhoa)
+        public static Khoa? GetKhoaByMaKhoa(string maKhoa)
         {
             string query = "SELECT * FROM Khoa WHERE MAKHOA = @MaKhoa";
             SqlParameter[] parameters = new SqlParameter[]
@@ -45,8 +45,8 @@ namespace QLDSV_HTC.DAL
                 
                 Khoa khoa = new Khoa
                 {
-                    MaKhoa = row["MAKHOA"].ToString(),
-                    TenKhoa = row["TENKHOA"].ToString()
+                    MaKhoa = row["MAKHOA"].ToString()!,
+                    TenKhoa = row["TENKHOA"].ToString()!
                 };
                 
                 return khoa;

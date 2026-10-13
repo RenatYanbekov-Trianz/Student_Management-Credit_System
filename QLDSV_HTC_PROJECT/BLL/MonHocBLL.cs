@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using QLDSV_HTC.DAL;
 using QLDSV_HTC.DTO.Models;
 
@@ -20,7 +20,7 @@ namespace QLDSV_HTC.BLL
             }
         }
         
-        public static MonHoc GetMonHocByMaMH(string maMH)
+        public static MonHoc? GetMonHocByMaMH(string maMH)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace QLDSV_HTC.BLL
                 }
                 
                 // Check if MaMH already exists
-                MonHoc existingMonHoc = MonHocDAL.GetMonHocByMaMH(monHoc.MaMH);
+                MonHoc? existingMonHoc = MonHocDAL.GetMonHocByMaMH(monHoc.MaMH);
                 if (existingMonHoc != null)
                 {
                     throw new Exception("MaMH already exists");
@@ -107,7 +107,7 @@ namespace QLDSV_HTC.BLL
                 }
                 
                 // Check if MaMH exists
-                MonHoc existingMonHoc = MonHocDAL.GetMonHocByMaMH(monHoc.MaMH);
+                MonHoc? existingMonHoc = MonHocDAL.GetMonHocByMaMH(monHoc.MaMH);
                 if (existingMonHoc == null)
                 {
                     throw new Exception("MaMH does not exist");
@@ -135,7 +135,7 @@ namespace QLDSV_HTC.BLL
             try
             {
                 // Check if MaMH exists
-                MonHoc existingMonHoc = MonHocDAL.GetMonHocByMaMH(maMH);
+                MonHoc? existingMonHoc = MonHocDAL.GetMonHocByMaMH(maMH);
                 if (existingMonHoc == null)
                 {
                     throw new Exception("MaMH does not exist");

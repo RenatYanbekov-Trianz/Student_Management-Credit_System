@@ -14,8 +14,8 @@ namespace QLDSV_HTC.GUI
 {
     public partial class FormDanhSachLopTinChi : Form
     {
-        private List<Khoa> khoas;
-        private List<LopTinChi> lopTinChis;
+        private List<Khoa> khoas = new List<Khoa>();
+        private List<LopTinChi> lopTinChis = new List<LopTinChi>();
 
         public FormDanhSachLopTinChi()
         {

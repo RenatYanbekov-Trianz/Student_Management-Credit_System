@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System;
 using System.Windows.Forms;
 using QLDSV_HTC.GUI;
 
@@ -10,10 +7,10 @@ namespace QLDSV_HTC
     static class Program
     {
         // User information
-        public static string Username = "";
-        public static string Role = "";
-        public static string FullName = "";
-        public static string MaKhoa = "";
+        public static string Username = string.Empty;
+        public static string Role = string.Empty;
+        public static string FullName = string.Empty;
+        public static string MaKhoa = string.Empty;
 
         /// <summary>
         /// The main entry point for the application.
@@ -21,8 +18,8 @@ namespace QLDSV_HTC
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            // .NET 8 Windows Forms startup configuration
+            ApplicationConfiguration.Initialize();
             Application.Run(new FormLogin());
         }
     }

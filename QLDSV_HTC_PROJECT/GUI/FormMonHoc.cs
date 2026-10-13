@@ -14,7 +14,7 @@ namespace QLDSV_HTC.GUI
 {
     public partial class FormMonHoc : Form
     {
-        private List<MonHoc> monHocs;
+        private List<MonHoc> monHocs = new List<MonHoc>();
         private bool isAdding = false;
         private bool isEditing = false;
 

@@ -14,8 +14,8 @@ namespace QLDSV_HTC.GUI
 {
     public partial class FormGiangVien : Form
     {
-        private List<Khoa> khoas;
-        private List<GiangVien> giangViens;
+        private List<Khoa> khoas = new List<Khoa>();
+        private List<GiangVien> giangViens = new List<GiangVien>();
         private bool isAdding = false;
         private bool isEditing = false;
 

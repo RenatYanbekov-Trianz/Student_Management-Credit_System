@@ -14,9 +14,9 @@ namespace QLDSV_HTC.GUI
 {
     public partial class FormDangKyLopTinChi : Form
     {
-        private SinhVien sinhVien;
-        private List<LopTinChi> lopTinChis;
-        private List<DangKy> dangKys;
+        private SinhVien? sinhVien;
+        private List<LopTinChi> lopTinChis = new List<LopTinChi>();
+        private List<DangKy> dangKys = new List<DangKy>();
 
         public FormDangKyLopTinChi()
         {

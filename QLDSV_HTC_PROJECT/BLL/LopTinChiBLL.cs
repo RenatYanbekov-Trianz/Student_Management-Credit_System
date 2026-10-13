@@ -43,7 +43,7 @@ namespace QLDSV_HTC.BLL
             }
         }
         
-        public static LopTinChi GetLopTinChiByMaLTC(int maLTC)
+        public static LopTinChi? GetLopTinChiByMaLTC(int maLTC)
         {
             try
             {
@@ -96,21 +96,21 @@ namespace QLDSV_HTC.BLL
                 }
                 
                 // Check if MaMH exists
-                MonHoc monHoc = MonHocDAL.GetMonHocByMaMH(lopTinChi.MaMH);
+                MonHoc? monHoc = MonHocDAL.GetMonHocByMaMH(lopTinChi.MaMH);
                 if (monHoc == null)
                 {
                     throw new Exception("MaMH does not exist");
                 }
                 
                 // Check if MaGV exists
-                GiangVien giangVien = GiangVienDAL.GetGiangVienByMaGV(lopTinChi.MaGV);
+                GiangVien? giangVien = GiangVienDAL.GetGiangVienByMaGV(lopTinChi.MaGV);
                 if (giangVien == null)
                 {
                     throw new Exception("MaGV does not exist");
                 }
                 
                 // Check if MaKhoa exists
-                Khoa khoa = KhoaDAL.GetKhoaByMaKhoa(lopTinChi.MaKhoa);
+                Khoa? khoa = KhoaDAL.GetKhoaByMaKhoa(lopTinChi.MaKhoa);
                 if (khoa == null)
                 {
                     throw new Exception("MaKhoa does not exist");
@@ -177,28 +177,28 @@ namespace QLDSV_HTC.BLL
                 }
                 
                 // Check if MaLTC exists
-                LopTinChi existingLopTinChi = LopTinChiDAL.GetLopTinChiByMaLTC(lopTinChi.MaLTC);
+                LopTinChi? existingLopTinChi = LopTinChiDAL.GetLopTinChiByMaLTC(lopTinChi.MaLTC);
                 if (existingLopTinChi == null)
                 {
                     throw new Exception("MaLTC does not exist");
                 }
                 
                 // Check if MaMH exists
-                MonHoc monHoc = MonHocDAL.GetMonHocByMaMH(lopTinChi.MaMH);
+                MonHoc? monHoc = MonHocDAL.GetMonHocByMaMH(lopTinChi.MaMH);
                 if (monHoc == null)
                 {
                     throw new Exception("MaMH does not exist");
                 }
                 
                 // Check if MaGV exists
-                GiangVien giangVien = GiangVienDAL.GetGiangVienByMaGV(lopTinChi.MaGV);
+                GiangVien? giangVien = GiangVienDAL.GetGiangVienByMaGV(lopTinChi.MaGV);
                 if (giangVien == null)
                 {
                     throw new Exception("MaGV does not exist");
                 }
                 
                 // Check if MaKhoa exists
-                Khoa khoa = KhoaDAL.GetKhoaByMaKhoa(lopTinChi.MaKhoa);
+                Khoa? khoa = KhoaDAL.GetKhoaByMaKhoa(lopTinChi.MaKhoa);
                 if (khoa == null)
                 {
                     throw new Exception("MaKhoa does not exist");
@@ -230,7 +230,7 @@ namespace QLDSV_HTC.BLL
             try
             {
                 // Check if MaLTC exists
-                LopTinChi existingLopTinChi = LopTinChiDAL.GetLopTinChiByMaLTC(maLTC);
+                LopTinChi? existingLopTinChi = LopTinChiDAL.GetLopTinChiByMaLTC(maLTC);
                 if (existingLopTinChi == null)
                 {
                     throw new Exception("MaLTC does not exist");
